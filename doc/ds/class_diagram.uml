@@ -1,0 +1,102 @@
+@startuml
+
+StatelessWidget <|-- Main.MyApp
+Main.MyApp <-- DBConnection.DBConnection
+Model<|-- DBConnection.DBConnection
+DBConnection.DBConnection <-- WorkoutScreen.WorkoutFrame
+DBConnection.DBConnection <-- ExercisesScreen.ExercisesFrame
+WorkoutScreen.Workout "1" - "1" ExercisesScreen.ExercisesFrame
+StatefulWidget <|-- WorkoutScreen.WorkoutFrame
+ExercisesScreen.ExercisesFrame --|> StatefulWidget
+ExercisesScreen <-- ExerciseDetailScreen.ExerciseDetailFrame
+
+package Main <<Folder>> {
+    class MyApp{
+        {method} + build(BuildContext context) : ScopedModel<DBConnection>
+    }
+}
+
+package DBConnection <<Folder>> {
+    class DBConnection {
+        {field} - no_image : Image
+        - rest_image : Image
+        - {static} _instance : DBConnection
+        {method} {static} + getWorkoutList() : Future<List<Workout>>
+        + {static} getExerciseList() : Future<List<Exercise>>
+        + getWorkouts() : Future<List<Workout>>
+        + getExercises() : Future<List<Exercise>>
+    }
+}
+
+package WorkoutScreen <<Folder>> {
+    class Workout {
+        {field} - _name : String
+        - _description : String
+        - _image : Image
+        - _date : DateTime
+        - _exercisesList : List<Exercise>
+        
+        {method} + void : Workout(String name, Image image, String Description, List<Exercise> exerciseList,  DateTime date)
+        + getName() : String
+        + getImage() : Image
+        + getDate() : DateTime
+        + getDescription() : String
+        + getExercisesList() : List<Exercise>
+    }
+    
+    class WorkoutFrame{
+        {field} -listarutinas : Future<List<Workout>>
+        {method} + void : WorkoutFrame(listarutinas : Future<List<Workout>>)
+    }
+    
+    class _WorkoutFrameState{
+        {field} -listarutinas : Future<List<Workout>>
+        {method} + void : _WorkoutFrameState(listarutinas : Future<List<Workout>>)
+    }
+    
+    WorkoutFrame <|- _WorkoutFrameState
+    _WorkoutFrameState "1" -- "*" Workout
+}
+
+package ExercisesScreen <<Folder>>{
+    class Exercise{
+        {field} - _name : String
+        - _image : Image
+        - _description : String
+        - _rep : String
+        - _video : String
+        {method} + Exercise(String name, Image image, String description, String rep, String video)
+        + getName() : String
+        + getImage() : Image
+        + getDescription() : String
+        + getRep() : String
+        + getVideo() : String
+    }
+    
+    class ExercisesFrame{
+        {field} -listaejercicios : Future<List<Exercise>>
+        {method} + void : ExercisesFrame(listaejercicios : Future<List<Exercise>>)
+    }
+    
+    class _ExerciseFrameState{
+        {field} -listaejercicios : Future<List<Exercise>>
+        {method} + void : _ExerciseFrameState(listaejercicios : Future<List<Exercise>>)
+    }
+    
+    ExercisesFrame <|- _ExerciseFrameState
+    _ExerciseFrameState "1" -- "*" Exercise
+}
+
+Package ExerciseDetailScreen <<Folder>>{
+class ExerciseDetailFrame{
+        {field} - ejercicio : Ejercicio
+        {method} + void : ExerciseDetailFrame(ejercicio : Ejercicio)
+    }
+    
+    class _ExerciseDetailFrame{
+        {field} - ejercicio : Ejercicio
+        {method} + void : _ExerciseFrameState(ejercicio : Ejercicio)
+    }
+    ExerciseDetailFrame <|-- _ExerciseDetailFrame
+}
+@enduml

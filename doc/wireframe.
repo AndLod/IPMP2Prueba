@@ -1,0 +1,63 @@
+
+@startuml
+(*) --> "
+{{
+salt
+{+
+{^"IPM P2"
+{#
+<&image> Workout1 MM/DD/AAAA
+<&image> Workout2 MM/DD/AAAA
+<&image> Workout3 MM/DD/AAAA
+<&image> Workout4 MM/DD/AAAA
+}
+}
+}
+}}
+" as InicialWin
+
+InicialWin -right-> "
+{{ 
+salt
+{+
+{^"Workout name"
+{#
+<&image> Name1 Duration 1
+<&image> Name2 Duration 2
+<&image> Name3 Duration 3
+<&image> Name4 Duration 4
+}
+}
+}
+}}
+" as WorkoutList
+
+
+WorkoutList -right-> "
+{{ 
+salt
+{+
+{^"Exercise name"
+{#
+  <&video>video  Description
+}
+}
+}
+}}
+" as ExerciseContent
+
+ExerciseContent -right-> "
+{{ 
+salt
+{+
+{
+{#
+  Video playing
+}
+}
+}
+}}
+"
+
+@enduml
+@enduml
